@@ -1,20 +1,26 @@
 {% extends 'BlogBundle::layout.html.twig' %}
+{# {% form_theme form 'form/fields.html.twig' %} #}
 
 {% block title %}Contact{% endblock%}
 
 {% block body %}
     <header>
-        <h1>Contact symblog</h1>
+        <h1>Contact symfonyblog</h1>
     </header>
 
-    <p>Want to contact symblog?</p>
-    
-    {{ form_start(form) }}
-        {{ form_errors(form) }}
-        
-        {{ form_row(form.name) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.subject) }}
-        {{ form_row(form.body) }}
+    {% for flash_message in app.session.flashBag.get('blogger-notice') %}
+        <div class="blogger-notice">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    <p>Want to contact symfonyblog?</p>
+
+    {{ form_start(form, {'attr': {'class': 'blogger'}}) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.subject) }}
+    {{ form_row(form.body) }}
     {{ form_end(form) }}
 {% endblock %}

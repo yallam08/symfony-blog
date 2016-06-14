@@ -1,0 +1,3 @@
+parameters:
+    # The blog contact email address
+    symfonyblog.emails.contact: yallam08@gmail.com

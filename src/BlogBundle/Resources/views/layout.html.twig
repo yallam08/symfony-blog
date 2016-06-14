@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    
+    <link href="{{ asset('css/blog-form.css') }}" type="text/css" rel="stylesheet" />
+{% endblock stylesheets %}
+
 {% block sidebar %}
     Sidebar content
 {% endblock %}

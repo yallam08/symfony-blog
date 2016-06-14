@@ -3,6 +3,7 @@
 namespace BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Enquiry
@@ -25,6 +26,7 @@ class Enquiry
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -32,6 +34,7 @@ class Enquiry
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=150)
+     * @Assert\Email()
      */
     private $email;
 
@@ -39,6 +42,8 @@ class Enquiry
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5, max=50)
      */
     private $subject;
 
@@ -46,6 +51,8 @@ class Enquiry
      * @var string
      *
      * @ORM\Column(name="body", type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=50)
      */
     private $body;
 
