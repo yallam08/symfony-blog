@@ -20,7 +20,7 @@
                             <ul class="navigation">
                                 <li><a href="{{ path('home_page') }}">Home</a></li>
                                 <li><a href="{{ path('about_page') }}">About</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><a href="{{ path('contact_page') }}">Contact</a></li>
                             </ul>
                         </nav>
                     {% endblock %}
@@ -41,7 +41,7 @@
 
             <div id="footer">
                 {% block footer %}
-                    Symfony3 blog tutorial
+                    Symfony3 Blog
                 {% endblock %}
             </div>
         </section>
