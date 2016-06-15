@@ -163,4 +163,3 @@ class Enquiry
         return $this->body;
     }
 }
-

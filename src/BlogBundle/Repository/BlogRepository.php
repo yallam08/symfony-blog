@@ -10,4 +10,21 @@ namespace BlogBundle\Repository;
  */
 class BlogRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Get the latest blogs
+     * 
+     * @param int $limit : limit the number of blogs
+     * @return Blog[]
+     */
+    public function getLatestBlogs($limit=null) {
+        $qb = $this->createQueryBuilder('b')
+                ->select('b')
+                ->orderBy('b.createdAt', 'DESC');
+        
+        if($limit) {
+            $qb->setMaxResults($limit);
+        }
+        
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -3,6 +3,7 @@
 namespace BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Blog
@@ -71,10 +72,15 @@ class Blog
      */
     private $updatedAt;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="blog")
+     */
     private $comments;
 
 
     public function __construct() {
+        $this->comments = new ArrayCollection();
+        
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
     }
@@ -153,12 +159,18 @@ class Blog
 
     /**
      * Get blog
+     * 
+     * @param int $length : limit the returned blog string
      *
      * @return string
      */
-    public function getBlog()
+    public function getBlog($length=null)
     {
-        return $this->blog;
+        return !is_null($length) && $length > 0 
+                ?
+                substr($this->blog, 0, $length)
+                :
+                $this->blog;
     }
 
     /**
@@ -263,5 +275,38 @@ class Blog
     public function setUpdatedAtValue() {
         $this->setUpdatedAt(new \DateTime());
     }
-}
 
+    /**
+     * Add comment
+     *
+     * @param \BlogBundle\Entity\Comment $comment
+     *
+     * @return Blog
+     */
+    public function addComment(\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+}

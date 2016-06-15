@@ -21,7 +21,22 @@ class PageController extends Controller {
      * )
      */
     public function indexAction() {
-        return $this->render('BlogBundle:Page:index.html.twig');
+
+
+        $blogs = $this->getDoctrine()
+                ->getRepository('BlogBundle:Blog')
+                ->getLatestBlogs();
+
+
+        // Another method for quering the blogs, but using the entity repository is preferred.
+//        $em = $this->getDoctrine()->getEntityManager();
+//        $blogs = $em->createQueryBuilder()
+//                ->select('b')
+//                ->from('BlogBundle:Blog', 'b')
+//                ->addOrderBy('b.createdAt', 'DESC')
+//                ->getQuery()->getResult();
+
+        return $this->render('BlogBundle:Page:index.html.twig', ['blogs' => $blogs]);
     }
 
     /**
@@ -65,7 +80,7 @@ class PageController extends Controller {
 
         return $this->render('BlogBundle:Page:contact.html.twig', ['form' => $form->createView()]);
     }
-    
+
     /**
      * 
      * @Route(
@@ -77,11 +92,18 @@ class PageController extends Controller {
      */
     public function showAction($id) {
         $blog = $this->getDoctrine()->getRepository('BlogBundle:Blog')->find($id);
-        if(!$blog) {
+        if (!$blog) {
             throw $this->createNotFoundException('No blog post found for id ' . $id);
         }
-        
-        return $this->render('BlogBundle:Page:show.html.twig', ['blog' => $blog]);
+
+        $comments = $this->getDoctrine()
+                ->getRepository('BlogBundle:Comment')
+                ->getCommentsForBlog($id);
+
+        return $this->render('BlogBundle:Page:show.html.twig', [
+                    'blog' => $blog,
+                    'comments' => $comments
+        ]);
     }
 
 }
