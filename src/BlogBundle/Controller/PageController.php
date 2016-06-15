@@ -65,5 +65,23 @@ class PageController extends Controller {
 
         return $this->render('BlogBundle:Page:contact.html.twig', ['form' => $form->createView()]);
     }
+    
+    /**
+     * 
+     * @Route(
+     *      "/{id}",
+     *      requirements={"id": "\d+"},
+     *      name="show_page",
+     * )
+     * @Method("GET")
+     */
+    public function showAction($id) {
+        $blog = $this->getDoctrine()->getRepository('BlogBundle:Blog')->find($id);
+        if(!$blog) {
+            throw $this->createNotFoundException('No blog post found for id ' . $id);
+        }
+        
+        return $this->render('BlogBundle:Page:show.html.twig', ['blog' => $blog]);
+    }
 
 }
